@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  lang=""
+  xml:lang=""
+  >
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-5541738-17"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-5541738-17');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+           <title>Every solution to missing data problems in pandas</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        { color: #cccccc; background-color: #303030; }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span.al { color: #ffcfaf; } /* Alert */
+      code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+      code span.at { } /* Attribute */
+      code span.bn { color: #dca3a3; } /* BaseN */
+      code span.bu { } /* BuiltIn */
+      code span.cf { color: #f0dfaf; } /* ControlFlow */
+      code span.ch { color: #dca3a3; } /* Char */
+      code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+      code span.co { color: #7f9f7f; } /* Comment */
+      code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+      code span.do { color: #7f9f7f; } /* Documentation */
+      code span.dt { color: #dfdfbf; } /* DataType */
+      code span.dv { color: #dcdccc; } /* DecVal */
+      code span.er { color: #c3bf9f; } /* Error */
+      code span.ex { } /* Extension */
+      code span.fl { color: #c0bed1; } /* Float */
+      code span.fu { color: #efef8f; } /* Function */
+      code span.im { } /* Import */
+      code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+      code span.kw { color: #f0dfaf; } /* Keyword */
+      code span.op { color: #f0efd0; } /* Operator */
+      code span.ot { color: #efef8f; } /* Other */
+      code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+      code span.sc { color: #dca3a3; } /* SpecialChar */
+      code span.ss { color: #cc9393; } /* SpecialString */
+      code span.st { color: #cc9393; } /* String */
+      code span.va { } /* Variable */
+      code span.vs { color: #cc9393; } /* VerbatimString */
+      code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    </style>
+        <link rel="stylesheet" href="../style/bulma.css" />
+        <link rel="stylesheet" href="../style/custom.css" />
+     
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+    
+  </head>
+  <body>
+         <!-- <header id="title-block-header">
+      <h1 class="title">Every solution to missing data problems in pandas</h1>
+            </header> -->
+    <section class="section">
+      <div class="container">
+        <div class="content">
+                      <p style="text-align: center"><a href="../class-06/">← back to class-06</a></p>
+          
+                      <h1>Every solution to missing data problems in pandas</h1>
+                         <nav id="TOC" role="doc-toc">
+                            <!-- <p class="toc-title">Jump to section</p> -->
+               <ul>
+<li><a href="#counting-missing-values">Counting missing values</a></li>
+<li><a href="#finding-rows-with-missing-data">Finding rows with missing data</a></li>
+<li><a href="#removing-rows-with-missing-data">Removing rows with missing data</a></li>
+<li><a href="#converting-values-to-missing">Converting values to missing</a></li>
+<li><a href="#how-to-fix-strcontains-says-cannot-mask-with-non-boolean-array-containing-na--nan-values">How to fix .str.contains says "Cannot mask with non-boolean array containing NA / NaN values"</a></li>
+</ul>
+            </nav>
+            
+<div class="cell code" data-execution_count="37">
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&quot;potato-tweets.csv&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="37">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>positive</td>
+      <td>Variety is the spice of life, and that's why w...</td>
+      <td>nojolondon</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>neutral</td>
+      <td>la ptite frite dans les potatoes😍😍😍😍😍😍😍</td>
+      <td>8LU3H0UR</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>unknown</td>
+      <td>NaN</td>
+      <td>Jaiography</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>unknown</td>
+      <td>And with the potatoes done, the farm is done! ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>neutral</td>
+      <td>@AlacritysWhatev @AriMelber As is the gravy ma...</td>
+      <td>adivawoman</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="counting-missing-values" class="cell markdown">
+<h2>Counting missing values</h2>
+<p><code>df.info()</code> will give you the number of non-missing values (the non-null count). Up at the top it tells you there are 96 total entries, so it's up to you to do the math yourself.</p>
+</section>
+<div class="cell code" data-execution_count="22">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code></pre></div>
+<div class="output stream stdout">
+<pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 96 entries, 0 to 95
+Data columns (total 3 columns):
+ #   Column     Non-Null Count  Dtype 
+---  ------     --------------  ----- 
+ 0   sentiment  96 non-null     object
+ 1   text       93 non-null     object
+ 2   user       89 non-null     object
+dtypes: object(3)
+memory usage: 2.4+ KB</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<p>For the <code>user</code> column (the person's username), 96 total rows minus 89 existing usernames = 7 rows missing usernames. I find this hard to follow, though, so here's another option:</p>
+</div>
+<div class="cell code" data-execution_count="23">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="23">
+<pre><code>sentiment    0
+text         3
+user         7
+dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<p>Why does this work?</p>
+<p><code>df.isna()</code> gives you <code>True</code> where a cell is missing data, and <code>False</code> where it is not missing data. It looks like this:</p>
+</div>
+<div class="cell code" data-execution_count="24">
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.isna()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="24">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+<p>96 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>We can see row 2 is missing text, while rows <code>3</code> and <code>93</code> are missing a user. When you connect this to <code>.sum()</code>, pandas will add up all of the <code>True</code> values in each row.</p>
+</div>
+<div class="cell code" data-execution_count="25">
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="25">
+<pre><code>sentiment    0
+text         3
+user         7
+dtype: int64</code></pre>
+</div>
+</div>
+<section id="finding-rows-with-missing-data" class="cell markdown">
+<h2>Finding rows with missing data</h2>
+</section>
+<div class="cell markdown">
+<p>Although missing data is usually thought of as a bad thing, sometimes you want to find the rows with missing data.</p>
+</div>
+<div class="cell code">
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&quot;potato-tweets.csv&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div>
+</div>
+<div class="cell markdown">
+<p>The one thing that <strong>will not work</strong> is trying to do <code>== "NaN"</code>. That's because <code>NaN</code> is not a string, it's a special kind of pandas/numpy data that means "this is missing."</p>
+</div>
+<div class="cell code" data-execution_count="41">
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This won&#39;t find you any users</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df[df.user <span class="op">==</span> <span class="st">&#39;NaN&#39;</span>]</span></code></pre></div>
+<div class="output execute_result" data-execution_count="41">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>Instead, to find rows where the data is missing you need to use <code>df.user.isna()</code> (...or <code>df.user.isnull()</code>, which does the exact same thing).</p>
+</div>
+<div class="cell code" data-execution_count="42">
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df[df.user.isna()]</span></code></pre></div>
+<div class="output execute_result" data-execution_count="42">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>unknown</td>
+      <td>And with the potatoes done, the farm is done! ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>unknown</td>
+      <td>Potatoes and eggs are just 👌🏽👌🏽</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>neutral</td>
+      <td>@LucyENichol “I want to be Smiths crisps” sang...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>unknown</td>
+      <td>@iamjaxteller kaç tradede bir likidite oluyorsun?</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>neutral</td>
+      <td>@DebraGetsPilled\nClamps 😉\n\nhttps://t.co/uuW...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>neutral</td>
+      <td>No offense to all the potatoes , don't get me ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>neutral</td>
+      <td>63 Potatoes</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="find-rows-with-any-missing-data" class="cell markdown">
+<h3>Find rows with ANY missing data</h3>
+<p>Another option is to find rows with ANY missing data. In this case, we have a few options. We'll start with <code>df.isna()</code> so we can look at what the missing data looks like.</p>
+</section>
+<div class="cell code" data-execution_count="48">
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df.isna().head()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="48">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>If we have <code>True</code> and <code>False</code>, we can ask them "hey, for each row, are ANY of you missing data?" by using <code>.any(axis=1)</code>. The <code>axis=1</code> part means "do this for each row instead of each column."</p>
+</div>
+<div class="cell code" data-execution_count="50">
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>).head()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="50">
+<pre><code>0    False
+1    False
+2     True
+3     True
+4    False
+dtype: bool</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<p>And now we can feed that into <code>df[...]</code> to only see the rows with missing data.</p>
+</div>
+<div class="cell code" data-execution_count="51">
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df[df.isna().<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)]</span></code></pre></div>
+<div class="output execute_result" data-execution_count="51">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>unknown</td>
+      <td>NaN</td>
+      <td>Jaiography</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>unknown</td>
+      <td>And with the potatoes done, the farm is done! ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>unknown</td>
+      <td>Potatoes and eggs are just 👌🏽👌🏽</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>neutral</td>
+      <td>@LucyENichol “I want to be Smiths crisps” sang...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>unknown</td>
+      <td>@iamjaxteller kaç tradede bir likidite oluyorsun?</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>neutral</td>
+      <td>@DebraGetsPilled\nClamps 😉\n\nhttps://t.co/uuW...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>neutral</td>
+      <td>NaN</td>
+      <td>OdsRasheed</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>neutral</td>
+      <td>No offense to all the potatoes , don't get me ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>unknown</td>
+      <td>NaN</td>
+      <td>i_cry_potatoes</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>neutral</td>
+      <td>63 Potatoes</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="removing-rows-with-missing-data" class="cell markdown">
+<h2>Removing rows with missing data</h2>
+<p>Maybe the rows with missing data are getting in the way of your analysis. Let's remove them!</p>
+</section>
+<div class="cell code" data-execution_count="54">
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&quot;potato-tweets.csv&quot;</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="54">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>positive</td>
+      <td>Variety is the spice of life, and that's why w...</td>
+      <td>nojolondon</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>neutral</td>
+      <td>la ptite frite dans les potatoes😍😍😍😍😍😍😍</td>
+      <td>8LU3H0UR</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>unknown</td>
+      <td>NaN</td>
+      <td>Jaiography</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>unknown</td>
+      <td>And with the potatoes done, the farm is done! ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>neutral</td>
+      <td>@AlacritysWhatev @AriMelber As is the gravy ma...</td>
+      <td>adivawoman</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="remove-rows-based-on-all-columns" class="cell markdown">
+<h3>Remove rows based on all columns</h3>
+<p>By default, you'll be removing rows where ANY of the columns are missing. I like to <strong>print the size of our data before and after dropping missing data</strong> to stay cognizant of whether we've made a mistake or whether we're throwing away a large chunk of our data.</p>
+</section>
+<div class="cell code" data-execution_count="58">
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Before dropping data we were&quot;</span>, df.shape)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>dropped <span class="op">=</span> df.dropna()</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;After dropping data we are&quot;</span>, dropped.shape)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>dropped.head()</span></code></pre></div>
+<div class="output stream stdout">
+<pre><code>Before dropping data we were (96, 3)
+After dropping data we are (86, 3)</code></pre>
+</div>
+<div class="output execute_result" data-execution_count="58">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>positive</td>
+      <td>Variety is the spice of life, and that's why w...</td>
+      <td>nojolondon</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>neutral</td>
+      <td>la ptite frite dans les potatoes😍😍😍😍😍😍😍</td>
+      <td>8LU3H0UR</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>neutral</td>
+      <td>@AlacritysWhatev @AriMelber As is the gravy ma...</td>
+      <td>adivawoman</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>positive</td>
+      <td>RT @junedarville: ❤️ 𝐃𝐚𝐮𝐩𝐡𝐢𝐧𝐨𝐢𝐬𝐞 𝐏𝐨𝐭𝐚𝐭𝐨𝐞𝐬\n❤️ ...</td>
+      <td>myphillymedia</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>neutral</td>
+      <td>RT @HalflingDancer: B/W and Fighter proceed to...</td>
+      <td>Presto_Magician</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>In this case I removed all rows that included any missing data. I went from 96 total columns down to 86.</p>
+</div>
+<section id="remove-rows-based-on-specific-columns" class="cell markdown">
+<h3>Remove rows based on specific columns</h3>
+<p>Usually you don't want to be so aggressive, though, and instead you <strong>only want to drop rows if they're missing data in specific columns.</strong> For instance, maybe I only want to remove rows that are missing tweet text.</p>
+</section>
+<div class="cell code" data-execution_count="60">
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Before dropping data we were&quot;</span>, df.shape)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>dropped <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">&#39;text&#39;</span>])</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;After dropping data we are&quot;</span>, dropped.shape)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>dropped.head()</span></code></pre></div>
+<div class="output stream stdout">
+<pre><code>Before dropping data we were (96, 3)
+After dropping data we are (93, 3)</code></pre>
+</div>
+<div class="output execute_result" data-execution_count="60">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>positive</td>
+      <td>Variety is the spice of life, and that's why w...</td>
+      <td>nojolondon</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>neutral</td>
+      <td>la ptite frite dans les potatoes😍😍😍😍😍😍😍</td>
+      <td>8LU3H0UR</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>unknown</td>
+      <td>And with the potatoes done, the farm is done! ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>neutral</td>
+      <td>@AlacritysWhatev @AriMelber As is the gravy ma...</td>
+      <td>adivawoman</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>positive</td>
+      <td>RT @junedarville: ❤️ 𝐃𝐚𝐮𝐩𝐡𝐢𝐧𝐨𝐢𝐬𝐞 𝐏𝐨𝐭𝐚𝐭𝐨𝐞𝐬\n❤️ ...</td>
+      <td>myphillymedia</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>This time <code>.dropna()</code> only removed three rows! You can also pass a list to <code>subset=</code>, for example in this case I could do <code>subset=['text', 'user']</code> to pay attention to both the <code>text</code> and <code>user</code> columns.</p>
+</div>
+<section id="converting-values-to-missing" class="cell markdown">
+<h2>Converting values to missing</h2>
+<p>In pandas, <code>NaN</code> is missing data. We can see from the dataset below that row 2 is missing text while row 3 is missing a username.</p>
+</section>
+<div class="cell code" data-execution_count="27">
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&quot;potato-tweets.csv&quot;</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="27">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>positive</td>
+      <td>Variety is the spice of life, and that's why w...</td>
+      <td>nojolondon</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>neutral</td>
+      <td>la ptite frite dans les potatoes😍😍😍😍😍😍😍</td>
+      <td>8LU3H0UR</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>unknown</td>
+      <td>NaN</td>
+      <td>Jaiography</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>unknown</td>
+      <td>And with the potatoes done, the farm is done! ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>neutral</td>
+      <td>@AlacritysWhatev @AriMelber As is the gravy ma...</td>
+      <td>adivawoman</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>They are <code>NaN</code> beacuse there's nothing in that cell when you read in the time. Sometimes you want other values to be counted as <code>NaN</code>, though! Let's look at <strong>sentiment</strong>.</p>
+</div>
+<div class="cell code" data-execution_count="28">
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df.sentiment.value_counts()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="28">
+<pre><code>neutral     42
+positive    23
+negative    17
+unknown     14
+Name: sentiment, dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<p>The value of "unknown" isn't very helpful to us, and <code>NaN</code> usually is a good equivalent for missing or unknown data. If we want to replace "unknown" with <code>NaN</code>, we have two options.</p>
+<h3 id="converting-missing-data-with-replace">Converting missing data with .replace</h3>
+<p>First, we can <strong>could <code>.replace</code> to replace all unknowns with <code>NaN</code></strong>. In this case, we need to import the numpy library to talk about <code>NaN</code> (the string <code>"NaN"</code> isn't the same as actual missing-data <code>NaN</code>!).</p>
+</div>
+<div class="cell code" data-execution_count="35">
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>df.sentiment <span class="op">=</span> df.sentiment.replace(<span class="st">&quot;unknown&quot;</span>, np.nan)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>df.sentiment.value_counts()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="35">
+<pre><code>neutral     42
+positive    23
+negative    17
+Name: sentiment, dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<p>The unknown values have now disappeared! We can confirm they're still there by adding <code>dropna=False</code> to our value counts...</p>
+</div>
+<div class="cell code" data-execution_count="33">
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df.sentiment.value_counts(dropna<span class="op">=</span><span class="va">False</span>)</span></code></pre></div>
+<div class="output execute_result" data-execution_count="33">
+<pre><code>neutral     42
+positive    23
+negative    17
+NaN         14
+Name: sentiment, dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<p>...or by just looking at our dataset.</p>
+</div>
+<div class="cell code" data-execution_count="34">
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="34">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>positive</td>
+      <td>Variety is the spice of life, and that's why w...</td>
+      <td>nojolondon</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>neutral</td>
+      <td>la ptite frite dans les potatoes😍😍😍😍😍😍😍</td>
+      <td>8LU3H0UR</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Jaiography</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>And with the potatoes done, the farm is done! ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>neutral</td>
+      <td>@AlacritysWhatev @AriMelber As is the gravy ma...</td>
+      <td>adivawoman</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="reading-in-missing-data-with-na_values" class="cell markdown">
+<h3>Reading in missing data with na_values</h3>
+<p>Another alternative is to go back to when we read the data in. Using <code>read_csv</code>, you can list values you want pandas to consider as <code>NaN</code> when reading in the dataset.</p>
+</section>
+<div class="cell code" data-execution_count="36">
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&quot;potato-tweets.csv&quot;</span>, na_values<span class="op">=</span>[<span class="st">&quot;unknown&quot;</span>])</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div>
+<div class="output execute_result" data-execution_count="36">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>positive</td>
+      <td>Variety is the spice of life, and that's why w...</td>
+      <td>nojolondon</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>neutral</td>
+      <td>la ptite frite dans les potatoes😍😍😍😍😍😍😍</td>
+      <td>8LU3H0UR</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Jaiography</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>And with the potatoes done, the farm is done! ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>neutral</td>
+      <td>@AlacritysWhatev @AriMelber As is the gravy ma...</td>
+      <td>adivawoman</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>This time every time "unknown" shows up it's automatically converted to <code>NaN</code> by pandas! In this case we hope there's no tweet by a user named "unknown" and no one who just tweeted the text "unknown," but we'll take that risk...</p>
+</div>
+<section id="how-to-fix-strcontains-says-cannot-mask-with-non-boolean-array-containing-na--nan-values" class="cell markdown">
+<h2>How to fix .str.contains says "Cannot mask with non-boolean array containing NA / NaN values"</h2>
+<p>If we only want tweets about mashed potatoes, we end up in trouble! We get the error <code>Cannot mask with non-boolean array containing NA / NaN values</code></p>
+</section>
+<div class="cell code" data-execution_count="61">
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df[df.text.<span class="bu">str</span>.contains(<span class="st">&quot;mashed&quot;</span>)]</span></code></pre></div>
+<div class="output error" data-ename="ValueError" data-evalue="Cannot mask with non-boolean array containing NA / NaN values">
+<pre><code>---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+/var/folders/l0/h__2c37508b8pl19zp232ycr0000gn/T/ipykernel_5991/1924286915.py in &lt;module&gt;
+----&gt; 1 df[df.text.str.contains(&quot;mashed&quot;)]
+
+~/.pyenv/versions/3.9.7/lib/python3.9/site-packages/pandas/core/frame.py in __getitem__(self, key)
+   3446 
+   3447         # Do we have a (boolean) 1d indexer?
+-&gt; 3448         if com.is_bool_indexer(key):
+   3449             return self._getitem_bool_array(key)
+   3450 
+
+~/.pyenv/versions/3.9.7/lib/python3.9/site-packages/pandas/core/common.py in is_bool_indexer(key)
+    137                     # Don&#39;t raise on e.g. [&quot;A&quot;, &quot;B&quot;, np.nan], see
+    138                     #  test_loc_getitem_list_of_labels_categoricalindex_with_na
+--&gt; 139                     raise ValueError(na_msg)
+    140                 return False
+    141             return True
+
+ValueError: Cannot mask with non-boolean array containing NA / NaN values</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<p>This is because <strong><code>.str.contains</code> does not work with columns that are missing data.</strong> Or at least, you need to tell it what to do. In this case, when we have a tweet that is missing text, we want to count that as <code>False</code>.</p>
+</div>
+<div class="cell code" data-execution_count="62">
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df[df.text.<span class="bu">str</span>.contains(<span class="st">&quot;mashed&quot;</span>, na<span class="op">=</span><span class="va">False</span>)]</span></code></pre></div>
+<div class="output execute_result" data-execution_count="62">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>9</th>
+      <td>neutral</td>
+      <td>kurutau mashed potatoes append</td>
+      <td>KuruC_ebooks</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>positive</td>
+      <td>@InfernoMeaCulpa “What’s not to understand. So...</td>
+      <td>villainousbvtch</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>positive</td>
+      <td>RT @AriMelber: Are mashed potatoes really “wor...</td>
+      <td>v_vossie</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>negative</td>
+      <td>@FanSidedNHL Some dude tried to do that to me ...</td>
+      <td>RogueChristLord</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>neutral</td>
+      <td>RT @fatfatpankocat: Heaping pile of mashed pot...</td>
+      <td>LurkerWojox</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>positive</td>
+      <td>RT @AriMelber: Are mashed potatoes really “wor...</td>
+      <td>lise_latulippe</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>negative</td>
+      <td>Last year I made; mashed potatoes, baked chick...</td>
+      <td>AshleyDavene</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>neutral</td>
+      <td>RT @fatfatpankocat: Heaping pile of mashed pot...</td>
+      <td>masayuki__san</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>neutral</td>
+      <td>@AriMelber How often are you all eating these ...</td>
+      <td>PeachValleyView</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>negative</td>
+      <td>@AriMelber Mine are😉\n\nI know my granny's sec...</td>
+      <td>LockUpTrumpNow</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>neutral</td>
+      <td>Go head, put some truffle on your mashed potatoes</td>
+      <td>MeechiiMeech</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>Maybe there are some instances where want to include rows that are missing the data, but 99% of the time you'll be using <code>.str.contains(..., na=False)</code>.</p>
+</div>
+<div class="cell code">
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"></code></pre></div>
+</div>
+
+        <p style="text-align: center; margin-top: 4em;"><a href="../class-06/">← back to class-06</a></p>
+    
+      </div>
+      </div>
+    </section>
+    
+  </body>
+</html>

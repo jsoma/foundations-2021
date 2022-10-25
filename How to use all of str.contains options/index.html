@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  lang=""
+  xml:lang=""
+  >
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-5541738-17"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-5541738-17');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+           <title>How to use all of str.contains options</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        { color: #cccccc; background-color: #303030; }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span.al { color: #ffcfaf; } /* Alert */
+      code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+      code span.at { } /* Attribute */
+      code span.bn { color: #dca3a3; } /* BaseN */
+      code span.bu { } /* BuiltIn */
+      code span.cf { color: #f0dfaf; } /* ControlFlow */
+      code span.ch { color: #dca3a3; } /* Char */
+      code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+      code span.co { color: #7f9f7f; } /* Comment */
+      code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+      code span.do { color: #7f9f7f; } /* Documentation */
+      code span.dt { color: #dfdfbf; } /* DataType */
+      code span.dv { color: #dcdccc; } /* DecVal */
+      code span.er { color: #c3bf9f; } /* Error */
+      code span.ex { } /* Extension */
+      code span.fl { color: #c0bed1; } /* Float */
+      code span.fu { color: #efef8f; } /* Function */
+      code span.im { } /* Import */
+      code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+      code span.kw { color: #f0dfaf; } /* Keyword */
+      code span.op { color: #f0efd0; } /* Operator */
+      code span.ot { color: #efef8f; } /* Other */
+      code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+      code span.sc { color: #dca3a3; } /* SpecialChar */
+      code span.ss { color: #cc9393; } /* SpecialString */
+      code span.st { color: #cc9393; } /* String */
+      code span.va { } /* Variable */
+      code span.vs { color: #cc9393; } /* VerbatimString */
+      code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    </style>
+        <link rel="stylesheet" href="../style/bulma.css" />
+        <link rel="stylesheet" href="../style/custom.css" />
+     
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+    
+  </head>
+  <body>
+         <!-- <header id="title-block-header">
+      <h1 class="title">How to use all of str.contains options</h1>
+            </header> -->
+    <section class="section">
+      <div class="container">
+        <div class="content">
+                      <p style="text-align: center"><a href="../class-06/">← back to class-06</a></p>
+          
+                      <h1>How to use all of str.contains options</h1>
+                         <nav id="TOC" role="doc-toc">
+                            <!-- <p class="toc-title">Jump to section</p> -->
+               <ul>
+<li><a href="#using-strcontains-with-missing-data">Using str.contains with missing data</a></li>
+<li><a href="#is-strcontains-case-sensitive">Is str.contains case-sensitive?</a></li>
+<li><a href="#regular-expressions-with-strcontains">Regular expressions with .str.contains</a></li>
+</ul>
+            </nav>
+            
+<div class="cell code" data-execution_count="34">
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">&quot;display.max_rows&quot;</span>, <span class="dv">10</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">&quot;display.min_rows&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
+</div>
+<div class="cell code" data-execution_count="35">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&quot;potato-tweets.csv&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output execute_result" data-execution_count="35">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>positive</td>
+      <td>Variety is the spice of life, and that's why w...</td>
+      <td>nojolondon</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>neutral</td>
+      <td>la ptite frite dans les potatoes😍😍😍😍😍😍😍</td>
+      <td>8LU3H0UR</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>unknown</td>
+      <td>NaN</td>
+      <td>Jaiography</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>unknown</td>
+      <td>And with the potatoes done, the farm is done! ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>neutral</td>
+      <td>@AlacritysWhatev @AriMelber As is the gravy ma...</td>
+      <td>adivawoman</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>neutral</td>
+      <td>Soviet kids made toys from POTATOES! (PICS) ht...</td>
+      <td>therussophile</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>unknown</td>
+      <td>I like potatoes</td>
+      <td>harrywlc</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>neutral</td>
+      <td>63 Potatoes</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>unknown</td>
+      <td>@MeganReports Carrots are great - I grew up wi...</td>
+      <td>JustinReady</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>neutral</td>
+      <td>RT @kaiken99: He is Marcel, a creature of the ...</td>
+      <td>the_eismen</td>
+    </tr>
+  </tbody>
+</table>
+<p>96 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<section id="using-strcontains-with-missing-data" class="cell markdown">
+<h2>Using str.contains with missing data</h2>
+<p>By default, <code>.str.contains</code> has a panic attack if you try to use it in a column where you are missing data.</p>
+</section>
+<div class="cell code" data-execution_count="36">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df[df.text.<span class="bu">str</span>.contains(<span class="st">&quot;mashed&quot;</span>)]</span></code></pre></div>
+<div class="output error" data-ename="ValueError" data-evalue="Cannot mask with non-boolean array containing NA / NaN values">
+<pre><code>---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+/var/folders/l0/h__2c37508b8pl19zp232ycr0000gn/T/ipykernel_34648/1924286915.py in &lt;module&gt;
+----&gt; 1 df[df.text.str.contains(&quot;mashed&quot;)]
+
+~/.pyenv/versions/3.9.7/lib/python3.9/site-packages/pandas/core/frame.py in __getitem__(self, key)
+   3446 
+   3447         # Do we have a (boolean) 1d indexer?
+-&gt; 3448         if com.is_bool_indexer(key):
+   3449             return self._getitem_bool_array(key)
+   3450 
+
+~/.pyenv/versions/3.9.7/lib/python3.9/site-packages/pandas/core/common.py in is_bool_indexer(key)
+    137                     # Don&#39;t raise on e.g. [&quot;A&quot;, &quot;B&quot;, np.nan], see
+    138                     #  test_loc_getitem_list_of_labels_categoricalindex_with_na
+--&gt; 139                     raise ValueError(na_msg)
+    140                 return False
+    141             return True
+
+ValueError: Cannot mask with non-boolean array containing NA / NaN values</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<p>If you try to use <code>.str.contains</code> to search for text in a column with missing data, you get the error <code>Cannot mask with non-boolean array containing NA / NaN values</code>. When this happens, just tell <code>.str.contains</code> that when it sees missing data, <strong>count the missing data as False</strong>.</p>
+</div>
+<div class="cell code" data-execution_count="37">
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[df.text.<span class="bu">str</span>.contains(<span class="st">&quot;mashed&quot;</span>, na<span class="op">=</span><span class="va">False</span>)]</span></code></pre></div>
+<div class="output execute_result" data-execution_count="37">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>9</th>
+      <td>neutral</td>
+      <td>kurutau mashed potatoes append</td>
+      <td>KuruC_ebooks</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>positive</td>
+      <td>@InfernoMeaCulpa “What’s not to understand. So...</td>
+      <td>villainousbvtch</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>positive</td>
+      <td>RT @AriMelber: Are mashed potatoes really “wor...</td>
+      <td>v_vossie</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>negative</td>
+      <td>@FanSidedNHL Some dude tried to do that to me ...</td>
+      <td>RogueChristLord</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>neutral</td>
+      <td>RT @fatfatpankocat: Heaping pile of mashed pot...</td>
+      <td>LurkerWojox</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>negative</td>
+      <td>Last year I made; mashed potatoes, baked chick...</td>
+      <td>AshleyDavene</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>neutral</td>
+      <td>RT @fatfatpankocat: Heaping pile of mashed pot...</td>
+      <td>masayuki__san</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>neutral</td>
+      <td>@AriMelber How often are you all eating these ...</td>
+      <td>PeachValleyView</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>negative</td>
+      <td>@AriMelber Mine are😉\n\nI know my granny's sec...</td>
+      <td>LockUpTrumpNow</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>neutral</td>
+      <td>Go head, put some truffle on your mashed potatoes</td>
+      <td>MeechiiMeech</td>
+    </tr>
+  </tbody>
+</table>
+<p>11 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<section id="is-strcontains-case-sensitive" class="cell markdown">
+<h2>Is str.contains case-sensitive?</h2>
+<p>By default, <code>.str.contains</code> uses exact case matching. That means if we search for uppercase letters, it will only show me uppercase letter matches.</p>
+</section>
+<div class="cell code" data-execution_count="38">
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df[df.text.<span class="bu">str</span>.contains(<span class="st">&quot;POTATO&quot;</span>, na<span class="op">=</span><span class="va">False</span>)]</span></code></pre></div>
+<div class="output execute_result" data-execution_count="38">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>72</th>
+      <td>neutral</td>
+      <td>TANJIA GAVE ME SEED POTATOES :(((</td>
+      <td>rcmmel</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>neutral</td>
+      <td>Soviet kids made toys from POTATOES! (PICS) ht...</td>
+      <td>therussophile</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>If we want <code>.str.contains</code> to not be case-sensitive, we can pass <code>case=False</code> to it.</p>
+</div>
+<div class="cell code" data-execution_count="39">
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df[df.text.<span class="bu">str</span>.contains(<span class="st">&quot;POTATO&quot;</span>, na<span class="op">=</span><span class="va">False</span>, case<span class="op">=</span><span class="va">False</span>)]</span></code></pre></div>
+<div class="output execute_result" data-execution_count="39">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>positive</td>
+      <td>Variety is the spice of life, and that's why w...</td>
+      <td>nojolondon</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>neutral</td>
+      <td>la ptite frite dans les potatoes😍😍😍😍😍😍😍</td>
+      <td>8LU3H0UR</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>unknown</td>
+      <td>And with the potatoes done, the farm is done! ...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>neutral</td>
+      <td>@AlacritysWhatev @AriMelber As is the gravy ma...</td>
+      <td>adivawoman</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>positive</td>
+      <td>RT @junedarville: ❤️ 𝐃𝐚𝐮𝐩𝐡𝐢𝐧𝐨𝐢𝐬𝐞 𝐏𝐨𝐭𝐚𝐭𝐨𝐞𝐬\n❤️ ...</td>
+      <td>myphillymedia</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>positive</td>
+      <td>RT @green_pills2021: Crunchy, healthy and supe...</td>
+      <td>LucaMatteoRosso</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>neutral</td>
+      <td>Soviet kids made toys from POTATOES! (PICS) ht...</td>
+      <td>therussophile</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>unknown</td>
+      <td>I like potatoes</td>
+      <td>harrywlc</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>neutral</td>
+      <td>63 Potatoes</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>neutral</td>
+      <td>RT @kaiken99: He is Marcel, a creature of the ...</td>
+      <td>the_eismen</td>
+    </tr>
+  </tbody>
+</table>
+<p>70 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<section id="regular-expressions-with-strcontains" class="cell markdown">
+<h2>Regular expressions with .str.contains</h2>
+<p>Regular expressions are a fancy way of doing searches. They're special characters that mean things other than the character.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">string</th>
+<th style="text-align: left;">meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">.*</td>
+<td style="text-align: left;">match anything</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">^</td>
+<td style="text-align: left;">start of the text</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">$</td>
+<td style="text-align: left;">end of the text</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">the thing before is optional</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">\d</td>
+<td style="text-align: left;">number character (digit)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[ASDF]</td>
+<td style="text-align: left;">A or S or D or F</td>
+</tr>
+</tbody>
+</table>
+<p>For example, if we only wanted tweets that started with <strong>RT</strong>...</p>
+</section>
+<div class="cell code" data-execution_count="45">
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Searching for text that starts with RT</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df[df.text.<span class="bu">str</span>.contains(<span class="st">&quot;^RT&quot;</span>, na<span class="op">=</span><span class="va">False</span>)]</span></code></pre></div>
+<div class="output execute_result" data-execution_count="45">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5</th>
+      <td>positive</td>
+      <td>RT @junedarville: ❤️ 𝐃𝐚𝐮𝐩𝐡𝐢𝐧𝐨𝐢𝐬𝐞 𝐏𝐨𝐭𝐚𝐭𝐨𝐞𝐬\n❤️ ...</td>
+      <td>myphillymedia</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>neutral</td>
+      <td>RT @HalflingDancer: B/W and Fighter proceed to...</td>
+      <td>Presto_Magician</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>neutral</td>
+      <td>RT @CoralCityCamera: A manatee trio of the ten...</td>
+      <td>skippz666</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>negative</td>
+      <td>RT @MaxCCurtis: Imagine Doctor Who: Flux from ...</td>
+      <td>aquatimelord</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>neutral</td>
+      <td>RT @DesignationSix: I would ask Anthony Walker...</td>
+      <td>Kath2252</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>positive</td>
+      <td>RT @OrbitalGardens: Right, it's time to kick o...</td>
+      <td>Helenintgarden</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>negative</td>
+      <td>RT @MarshalPapworth: A little bit of #mondaymo...</td>
+      <td>HarperAdamsUni</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>neutral</td>
+      <td>RT @TestKitchen: Tag yourself, we’re Garlic Ma...</td>
+      <td>stephen40290427</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>positive</td>
+      <td>RT @green_pills2021: Crunchy, healthy and supe...</td>
+      <td>LucaMatteoRosso</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>neutral</td>
+      <td>RT @kaiken99: He is Marcel, a creature of the ...</td>
+      <td>the_eismen</td>
+    </tr>
+  </tbody>
+</table>
+<p>27 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>If you wanted to turn off regular expression support for <code>.str.contains</code>, you can use <code>regex=False</code>.</p>
+</div>
+<div class="cell code" data-execution_count="44">
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Literally searching for ^RT</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df[df.text.<span class="bu">str</span>.contains(<span class="st">&quot;^RT&quot;</span>, na<span class="op">=</span><span class="va">False</span>, regex<span class="op">=</span><span class="va">False</span>)]</span></code></pre></div>
+<div class="output execute_result" data-execution_count="44">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentiment</th>
+      <th>text</th>
+      <th>user</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell code">
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"></code></pre></div>
+</div>
+
+        <p style="text-align: center; margin-top: 4em;"><a href="../class-06/">← back to class-06</a></p>
+    
+      </div>
+      </div>
+    </section>
+    
+  </body>
+</html>

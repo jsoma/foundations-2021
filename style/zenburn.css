@@ -1,0 +1,175 @@
+.sourceCode code,
+.sourceCode pre {
+  color: #fdce93;
+  background-color: #3f3f3f;
+}
+
+.sourceCode .hll {
+  background-color: #222;
+}
+
+.sourceCode .err {
+  color: #e37170;
+  background-color: #3d3535;
+}
+
+.sourceCode .k {
+  color: #f0dfaf;
+}
+
+.sourceCode .p {
+  color: #41706f;
+}
+
+.sourceCode .cs {
+  color: #cd0000;
+  font-weight: 700;
+}
+
+.sourceCode .gd {
+  color: #cd0000;
+}
+
+.sourceCode .ge {
+  color: #ccc;
+  font-style: italic;
+}
+
+.sourceCode .gr {
+  color: red;
+}
+
+.sourceCode .go {
+  color: gray;
+}
+
+.sourceCode .gs {
+  color: #ccc;
+  font-weight: 700;
+}
+
+.sourceCode .gu {
+  color: purple;
+  font-weight: 700;
+}
+
+.sourceCode .gt {
+  color: #0040d0;
+}
+
+.sourceCode .kc {
+  color: #dca3a3;
+}
+
+.sourceCode .kd {
+  color: #ffff86;
+}
+
+.sourceCode .kn {
+  color: #dfaf8f;
+  font-weight: 700;
+}
+
+.sourceCode .kp {
+  color: #cdcf99;
+}
+
+.sourceCode .kr {
+  color: #cdcd00;
+}
+
+.sourceCode .ni {
+  color: #c28182;
+}
+
+.sourceCode .ne {
+  color: #c3bf9f;
+  font-weight: 700;
+}
+
+.sourceCode .nn {
+  color: #8fbede;
+}
+
+.sourceCode .vi {
+  color: #ffffc7;
+}
+
+.sourceCode .c,
+.preview-zenburn .sourceCode .g,
+.preview-zenburn .sourceCode .cm,
+.preview-zenburn .sourceCode .cp,
+.preview-zenburn .sourceCode .c1 {
+  color: #7f9f7f;
+}
+
+.sourceCode .l,
+.preview-zenburn .sourceCode .x,
+.preview-zenburn .sourceCode .no,
+.preview-zenburn .sourceCode .nd,
+.preview-zenburn .sourceCode .nl,
+.preview-zenburn .sourceCode .nx,
+.preview-zenburn .sourceCode .py,
+.preview-zenburn .sourceCode .w {
+  color: #ccc;
+}
+
+.sourceCode .n,
+.preview-zenburn .sourceCode .nv,
+.preview-zenburn .sourceCode .vg {
+  color: #dcdccc;
+}
+
+.sourceCode .o,
+.preview-zenburn .sourceCode .ow {
+  color: #f0efd0;
+}
+
+.sourceCode .gh,
+.preview-zenburn .sourceCode .gp {
+  color: #dcdccc;
+  font-weight: 700;
+}
+
+.sourceCode .gi,
+.preview-zenburn .sourceCode .kt {
+  color: #00cd00;
+}
+
+.sourceCode .ld,
+.preview-zenburn .sourceCode .s,
+.preview-zenburn .sourceCode .sb,
+.preview-zenburn .sourceCode .sc,
+.preview-zenburn .sourceCode .sd,
+.preview-zenburn .sourceCode .s2,
+.preview-zenburn .sourceCode .se,
+.preview-zenburn .sourceCode .sh,
+.preview-zenburn .sourceCode .si,
+.preview-zenburn .sourceCode .sx,
+.preview-zenburn .sourceCode .sr,
+.preview-zenburn .sourceCode .s1,
+.preview-zenburn .sourceCode .ss {
+  color: #cc9393;
+}
+
+.sourceCode .m,
+.preview-zenburn .sourceCode .mf,
+.preview-zenburn .sourceCode .mh,
+.preview-zenburn .sourceCode .mi,
+.preview-zenburn .sourceCode .mo,
+.preview-zenburn .sourceCode .il {
+  color: #8cd0d3;
+}
+
+.sourceCode .na,
+.preview-zenburn .sourceCode .nt {
+  color: #9ac39f;
+}
+
+.sourceCode .nb,
+.preview-zenburn .sourceCode .nc,
+.preview-zenburn .sourceCode .nf,
+.preview-zenburn .sourceCode .bp,
+.preview-zenburn .sourceCode .vc {
+  color: #efef8f;
+}

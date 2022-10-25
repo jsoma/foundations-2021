@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  lang=""
+  xml:lang=""
+  >
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-5541738-17"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-5541738-17');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+           <title>Why do I get the error “pyenv: jupyter: command not found, the jupyter command exists in these Python versions”?</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    </style>
+        <link rel="stylesheet" href="../style/bulma.css" />
+        <link rel="stylesheet" href="../style/custom.css" />
+     
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+    
+  </head>
+  <body>
+         <!-- <header id="title-block-header">
+      <h1 class="title">Why do I get the error “pyenv: jupyter: command not found, the jupyter command exists in these Python versions”?</h1>
+            </header> -->
+    <section class="section">
+      <div class="container">
+        <div class="content">
+                      <p style="text-align: center"><a href="../class-04/">← back to class-04</a></p>
+          
+                      <h1>Why do I get the error “pyenv: jupyter: command not found, the jupyter command exists in these Python versions”?</h1>
+             
+<p>If you use <a href="https://github.com/pyenv/pyenv">pyenv</a> to manage your different Python versions, you might have come across an error message like this one:</p>
+<pre><code>pyenv: jupyter: command not found
+The `jupyter’ command exists in these Python versions:
+ 3.9.7
+Note: See ‘pyenv help global’ for tips on allowing both
+   python2 and python3 to be found.</code></pre>
+<p>pyenv works hard to keep different versions of Python separate. One of the jobs it takes along with that is separating the libraries each version of Python has installed (such as requests, pandas, and yes – Jupyter!).</p>
+<p>Typical Python installations don’t separate things so cleanly, and since Jupyter is more than just a normal library – it gets a whole <code>jupyter</code> command, you know – you commonly end in situations like <a href="../jupyter-module-not-found">Python and Jupyter getting disconnected from each other</a>.</p>
+<p>When you see this <code>jupyter: command not found</code> error, it’s pyenv doing its best to keep you from using a Jupyter attached to a <em>different Python than the one you’re using on the command line</em>. In the example above, the user might be using Python 3.10.0 after having previously installed Jupyter with Python 3.9.7.</p>
+<p>Alternative explanation: A new Python came out! You got excited! You switched to it! This makes you abandon your old Jupyter installation, no big deal!</p>
+<p>There are two ways to fix this:</p>
+<ul>
+<li><strong>Install Jupyter for your fancy new Python</strong> with <code>pip install jupyter</code>, then continue to use it as normal</li>
+<li><strong>Go back to your previous Python version</strong>, and stop playing with the new one. In this case, <code>pyenv global 3.9.7 &amp;&amp; pyenv shell 3.9.7</code> would set the new default Python to be 3.9.7 and switch back to it.</li>
+</ul>
+<p>If you’re trying to upgrade to the new Python, you might as well reinstall Jupyter! You’ll probably have plenty of more libraries to reinstall to get back in the groove of your old Python version, but that’s the price you pay for modernity. If you just were poking around at another version because you were bored (right? that’s what human beings do?) then you might as well switch back.</p>
+
+        <p style="text-align: center; margin-top: 4em;"><a href="../class-04/">← back to class-04</a></p>
+    
+      </div>
+      </div>
+    </section>
+    
+  </body>
+</html>

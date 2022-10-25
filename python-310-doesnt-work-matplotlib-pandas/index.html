@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  lang=""
+  xml:lang=""
+  >
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-5541738-17"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-5541738-17');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+           <title>Fix for: Python 3.10 has errors on M1 Macs/new OS X installing Jupyter, pandas, matplotlib, or other libraries</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        { color: #cccccc; background-color: #303030; }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span.al { color: #ffcfaf; } /* Alert */
+      code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+      code span.at { } /* Attribute */
+      code span.bn { color: #dca3a3; } /* BaseN */
+      code span.bu { } /* BuiltIn */
+      code span.cf { color: #f0dfaf; } /* ControlFlow */
+      code span.ch { color: #dca3a3; } /* Char */
+      code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+      code span.co { color: #7f9f7f; } /* Comment */
+      code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+      code span.do { color: #7f9f7f; } /* Documentation */
+      code span.dt { color: #dfdfbf; } /* DataType */
+      code span.dv { color: #dcdccc; } /* DecVal */
+      code span.er { color: #c3bf9f; } /* Error */
+      code span.ex { } /* Extension */
+      code span.fl { color: #c0bed1; } /* Float */
+      code span.fu { color: #efef8f; } /* Function */
+      code span.im { } /* Import */
+      code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+      code span.kw { color: #f0dfaf; } /* Keyword */
+      code span.op { color: #f0efd0; } /* Operator */
+      code span.ot { color: #efef8f; } /* Other */
+      code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+      code span.sc { color: #dca3a3; } /* SpecialChar */
+      code span.ss { color: #cc9393; } /* SpecialString */
+      code span.st { color: #cc9393; } /* String */
+      code span.va { } /* Variable */
+      code span.vs { color: #cc9393; } /* VerbatimString */
+      code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    </style>
+        <link rel="stylesheet" href="../style/bulma.css" />
+        <link rel="stylesheet" href="../style/custom.css" />
+     
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+    
+  </head>
+  <body>
+         <!-- <header id="title-block-header">
+      <h1 class="title">Fix for: Python 3.10 has errors on M1 Macs/new OS X installing Jupyter, pandas, matplotlib, or other libraries</h1>
+            </header> -->
+    <section class="section">
+      <div class="container">
+        <div class="content">
+                      <p style="text-align: center"><a href="../class-05/">← back to class-05</a></p>
+          
+                      <h1>Fix for: Python 3.10 has errors on M1 Macs/new OS X installing Jupyter, pandas, matplotlib, or other libraries</h1>
+                         <nav id="TOC" role="doc-toc">
+                            <!-- <p class="toc-title">Jump to section</p> -->
+               <ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#how-to-fix-it">How to fix it</a></li>
+</ul>
+            </nav>
+            
+<h2 id="intro">Intro</h2>
+<p>When you install Python packages, there are <strong>two ways they can be installed:</strong></p>
+<ul>
+<li>Ready-made versions that work with your computer called “wheels.” They come straight from the internet! It takes like two seconds to install!</li>
+<li>You download a bunch of code that then gets turned into a library. This is “compiling” or “building” the wheel.</li>
+</ul>
+<p>You don’t make this decision – pip does! If there’s a ready-made version, it uses that. If not, your computer builds it. If you have a super-new computer or are using a super-new version of Python, there might not be a wheel so your computer has to compile its own.</p>
+<p>Sometimes your computer <em>can’t</em> build it, though. It might be that you need more software installed, or the version of the library doesn’t work with your kind of computer, or the library just hasn’t gotten support for the Python version yet.</p>
+<p>The easiest solution is to use an older version of Python and try to install.</p>
+<p>For example, we’re using 3.10.0. It’s a new Python, maybe matplotlib doesn’t have a wheel! We can’t build the wheel for WHO KNOWS WHY: NO ONE KNOWS. Could be a thousand reasons. So instead, we’ll switch to an earlier version of Python that has pandas/matplotlib/requests wheels (or ones that we can build successfully) and we’ll be good to go.</p>
+<p>This is why <code>pyenv</code> rules. It allows you to easily install and switch between Python versions.</p>
+<h2 id="how-to-fix-it">How to fix it</h2>
+<h3 id="cleaning-house">Cleaning house</h3>
+<p>First, <strong>CLOSE ALL OF YOUR TERMINALS</strong>. Make sure there are non that are minimized! We’re doing this to make sure that we don’t have any Python 3.10.0 Jupyter notebook servers floating around.</p>
+<h3 id="changing-our-default-python">Changing our default Python</h3>
+<p>Now let’s install abandon Python 3.10.0! We’ll use <code>pyenv</code> to <strong>install Python 3.9.7</strong> and <strong>set it as the default Python version</strong>.</p>
+<blockquote>
+<p>Remember: Don’t include the <code>$</code> in your command!</p>
+</blockquote>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pyenv install 3.9.7</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pyenv global 3.9.7</span></code></pre></div>
+<p>The first one might take a while to download and install 3.9.7, but it’ll finish up eventually.</p>
+<h3 id="reinstalling-jupyterconnecting-it-to-python-3.9.7">Reinstalling Jupyter/Connecting it to Python 3.9.7</h3>
+<p>Previously we were using Jupyter with Python 3.10.0. Now we need to <strong>hook Jupyter into Python 3.9.7</strong>.</p>
+<p>First, check to make sure you’re using Python 3.9.7:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python <span class="at">--version</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Python</span> 3.9.7</span></code></pre></div>
+<p>If it does’t say 3.9.7, run the <code>pyenv</code> commands above again.</p>
+<p>Now we can <strong>install Jupyter</strong>…</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install jupyter</span></code></pre></div>
+<p>…then we can <strong>connect Jupyter to the new version of Python</strong>. The Jupyter-Python connection is called a “kernel,” and these commands make sure our Python 3 kernel (aka Jupyter’s Python) is the same Python as <code>python</code> on the command line.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python <span class="at">-m</span> pip install ipykernel</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python <span class="at">-m</span> ipykernel install <span class="at">--user</span></span></code></pre></div>
+<h3 id="installing-some-more-libraries">Installing some more libraries</h3>
+<p>We were having problems installing pandas and matplotlib before on some of our computers. <strong>Let’s try installing these libraries</strong> on the command line right now – along with a few other common libraries – just to be sure we don’t get any errors.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install pandas matplotlib requests beautifulsoup4 pg8000</span></code></pre></div>
+<p>If you get an error here, try installing them one at a time. Which one gives the error?</p>
+<h3 id="testing-out-jupyter">Testing out Jupyter</h3>
+<p>Now that we’ve installed a new Python, installed Jupyter, and connected Jupyter to the new Python, we can try to run Jupyter notebook.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> jupyter notebook</span></code></pre></div>
+<p>When it opens up, select <strong>New</strong> and then <strong>Python 3 (ipykernel)</strong>. This will connect us to our newly installed Python.</p>
+<p>Now we can run some Python code to check our installation. Let’s make sure our <strong>imports work</strong> and our libraries were installed correctly…</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> plt</span></code></pre></div>
+<p>…then make sure our <strong>pandas is good to go</strong>…</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    { <span class="st">&#39;col1&#39;</span>: <span class="dv">4</span>, <span class="st">&#39;col2&#39;</span>: <span class="dv">8</span> },</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    { <span class="st">&#39;col1&#39;</span>: <span class="dv">14</span>, <span class="st">&#39;col2&#39;</span>: <span class="dv">12</span> },</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    { <span class="st">&#39;col1&#39;</span>: <span class="dv">8</span>, <span class="st">&#39;col2&#39;</span>: <span class="dv">1</span> },</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<p>…then make sure our <strong>matplotlib is functional</strong>…</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.plot(x<span class="op">=</span><span class="st">&#39;col1&#39;</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="st">&#39;col2&#39;</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        kind<span class="op">=</span><span class="st">&#39;scatter&#39;</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">&quot;It works!!!&quot;</span>)</span></code></pre></div>
+<p>…and then we’re all set!</p>
+
+        <p style="text-align: center; margin-top: 4em;"><a href="../class-05/">← back to class-05</a></p>
+    
+      </div>
+      </div>
+    </section>
+    
+  </body>
+</html>

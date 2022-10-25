@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  lang=""
+  xml:lang=""
+  >
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-5541738-17"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-5541738-17');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+           <title>Replacing with .str.replace and .replace</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        { color: #cccccc; background-color: #303030; }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span.al { color: #ffcfaf; } /* Alert */
+      code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+      code span.at { } /* Attribute */
+      code span.bn { color: #dca3a3; } /* BaseN */
+      code span.bu { } /* BuiltIn */
+      code span.cf { color: #f0dfaf; } /* ControlFlow */
+      code span.ch { color: #dca3a3; } /* Char */
+      code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+      code span.co { color: #7f9f7f; } /* Comment */
+      code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+      code span.do { color: #7f9f7f; } /* Documentation */
+      code span.dt { color: #dfdfbf; } /* DataType */
+      code span.dv { color: #dcdccc; } /* DecVal */
+      code span.er { color: #c3bf9f; } /* Error */
+      code span.ex { } /* Extension */
+      code span.fl { color: #c0bed1; } /* Float */
+      code span.fu { color: #efef8f; } /* Function */
+      code span.im { } /* Import */
+      code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+      code span.kw { color: #f0dfaf; } /* Keyword */
+      code span.op { color: #f0efd0; } /* Operator */
+      code span.ot { color: #efef8f; } /* Other */
+      code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+      code span.sc { color: #dca3a3; } /* SpecialChar */
+      code span.ss { color: #cc9393; } /* SpecialString */
+      code span.st { color: #cc9393; } /* String */
+      code span.va { } /* Variable */
+      code span.vs { color: #cc9393; } /* VerbatimString */
+      code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    </style>
+        <link rel="stylesheet" href="../style/bulma.css" />
+        <link rel="stylesheet" href="../style/custom.css" />
+     
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+    
+  </head>
+  <body>
+         <!-- <header id="title-block-header">
+      <h1 class="title">Replacing with .str.replace and .replace</h1>
+            </header> -->
+    <section class="section">
+      <div class="container">
+        <div class="content">
+                      <p style="text-align: center"><a href="../class-06/">← back to class-06</a></p>
+          
+                      <h1>Replacing with .str.replace and .replace</h1>
+                         <nav id="TOC" role="doc-toc">
+                            <!-- <p class="toc-title">Jump to section</p> -->
+               <ul>
+<li><a href="#using-replace-to-replace-exact-values">Using .replace to replace exact values</a></li>
+<li><a href="#using-replace-to-replace-multiple-exact-values">Using .replace to replace multiple exact values</a></li>
+<li><a href="#comparing-replace-and-strreplace">Comparing .replace and .str.replace</a></li>
+<li><a href="#making-strreplace-not-case-sensitive">Making .str.replace not case sensitive</a></li>
+<li><a href="#removing-parts-of-strings">Removing parts of strings</a></li>
+<li><a href="#dont-confuse-strreplace-and-replace">Don't confuse .str.replace and .replace</a></li>
+</ul>
+            </nav>
+            
+<div class="cell code" data-execution_count="7">
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    { <span class="st">&#39;original&#39;</span>: <span class="st">&#39;Potatoes&#39;</span>, <span class="st">&#39;sentiment&#39;</span>: <span class="op">-</span><span class="dv">1</span> },</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    { <span class="st">&#39;original&#39;</span>: <span class="st">&#39;I hate bananas&#39;</span>, <span class="st">&#39;sentiment&#39;</span>: <span class="op">-</span><span class="dv">1</span> },</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    { <span class="st">&#39;original&#39;</span>: <span class="st">&#39;I love potatoes&#39;</span>, <span class="st">&#39;sentiment&#39;</span>: <span class="dv">1</span> },</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    { <span class="st">&#39;original&#39;</span>: <span class="st">&#39;Potatoes are my favorite&#39;</span>, <span class="st">&#39;sentiment&#39;</span>: <span class="dv">1</span> },</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    { <span class="st">&#39;original&#39;</span>: <span class="st">&#39;I ate potatoes&#39;</span>, <span class="st">&#39;sentiment&#39;</span>: <span class="dv">0</span> }</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div>
+</div>
+<section id="using-replace-to-replace-exact-values" class="cell markdown">
+<h2>Using .replace to replace exact values</h2>
+<p>When you use <code>.replace</code>, you're matching the exact value (aka the entire cell).</p>
+</section>
+<div class="cell code" data-execution_count="16">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.sentiment.replace(<span class="op">-</span><span class="dv">1</span>, <span class="st">&quot;negative&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dfa</span></code></pre></div>
+<div class="output execute_result" data-execution_count="16">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>original</th>
+      <th>sentiment</th>
+      <th>edited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potatoes</td>
+      <td>-1</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I hate bananas</td>
+      <td>-1</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I love potatoes</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potatoes are my favorite</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I ate potatoes</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="using-replace-to-replace-multiple-exact-values" class="cell markdown">
+<h2>Using .replace to replace multiple exact values</h2>
+<p>You can also ask <code>.replace</code> to replace multiple exact values by passing it a dictionary.</p>
+</section>
+<div class="cell code" data-execution_count="18">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.sentiment.replace({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span><span class="dv">1</span>: <span class="st">&quot;negative&quot;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: <span class="st">&quot;neutral&quot;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">&quot;positive&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output execute_result" data-execution_count="18">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>original</th>
+      <th>sentiment</th>
+      <th>edited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potatoes</td>
+      <td>-1</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I hate bananas</td>
+      <td>-1</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I love potatoes</td>
+      <td>1</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potatoes are my favorite</td>
+      <td>1</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I ate potatoes</td>
+      <td>0</td>
+      <td>neutral</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="comparing-replace-and-strreplace" class="cell markdown">
+<h2>Comparing .replace and .str.replace</h2>
+<p>Both <code>.replace</code> and <code>.str.replace</code> replace things in your data. The difference is that <code>.replace</code> looks at the entire cell, while <code>.str.replace</code> looks for matches inside of the cell.</p>
+<p>Let's see some examples.</p>
+</section>
+<div class="cell code" data-execution_count="19">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output execute_result" data-execution_count="19">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>original</th>
+      <th>sentiment</th>
+      <th>edited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potatoes</td>
+      <td>-1</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I hate bananas</td>
+      <td>-1</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I love potatoes</td>
+      <td>1</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potatoes are my favorite</td>
+      <td>1</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I ate potatoes</td>
+      <td>0</td>
+      <td>neutral</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell code" data-execution_count="20">
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.original.replace(<span class="st">&quot;Potatoes&quot;</span>, <span class="st">&quot;Chocolates&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output execute_result" data-execution_count="20">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>original</th>
+      <th>sentiment</th>
+      <th>edited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potatoes</td>
+      <td>-1</td>
+      <td>Chocolates</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I hate bananas</td>
+      <td>-1</td>
+      <td>I hate bananas</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I love potatoes</td>
+      <td>1</td>
+      <td>I love potatoes</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potatoes are my favorite</td>
+      <td>1</td>
+      <td>Potatoes are my favorite</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I ate potatoes</td>
+      <td>0</td>
+      <td>I ate potatoes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p><code>.replace</code> will only replace "Potatoes" if it finds an exact match. Notice how "Potatoes are my favorite" is untouched, but the first row changed from <strong>Potatoes</strong> to <strong>Chocolcates</strong>.</p>
+</div>
+<div class="cell code" data-execution_count="21">
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.original.<span class="bu">str</span>.replace(<span class="st">&quot;Potatoes&quot;</span>, <span class="st">&quot;Chocolate&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output execute_result" data-execution_count="21">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>original</th>
+      <th>sentiment</th>
+      <th>edited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potatoes</td>
+      <td>-1</td>
+      <td>Chocolate</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I hate bananas</td>
+      <td>-1</td>
+      <td>I hate bananas</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I love potatoes</td>
+      <td>1</td>
+      <td>I love potatoes</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potatoes are my favorite</td>
+      <td>1</td>
+      <td>Chocolate are my favorite</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I ate potatoes</td>
+      <td>0</td>
+      <td>I ate potatoes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p><code>.str.replace</code> will replace "Potatoes" even inside of a sentence. Notice how the last sentence is now <strong>Chocolates are my favorite</strong>.</p>
+</div>
+<section id="making-strreplace-not-case-sensitive" class="cell markdown">
+<h2>Making .str.replace not case sensitive</h2>
+<p>By default, both <code>.replace</code> and <code>.str.replace</code> are case sensitive. They need an exact match - uppercase and lowercase are treated differently.</p>
+</section>
+<div class="cell code" data-execution_count="22">
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.original.<span class="bu">str</span>.replace(<span class="st">&quot;Potatoes&quot;</span>, <span class="st">&quot;Chocolate&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output execute_result" data-execution_count="22">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>original</th>
+      <th>sentiment</th>
+      <th>edited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potatoes</td>
+      <td>-1</td>
+      <td>Chocolate</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I hate bananas</td>
+      <td>-1</td>
+      <td>I hate bananas</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I love potatoes</td>
+      <td>1</td>
+      <td>I love potatoes</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potatoes are my favorite</td>
+      <td>1</td>
+      <td>Chocolate are my favorite</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I ate potatoes</td>
+      <td>0</td>
+      <td>I ate potatoes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>Notice how "I love potatoes" is still about potatoes and not chocolate. If you want pandas to ignore case while replacing strings, use <code>case=False</code>.</p>
+</div>
+<div class="cell code" data-execution_count="12">
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.original.<span class="bu">str</span>.replace(<span class="st">&quot;Potatoes&quot;</span>, <span class="st">&quot;Chocolate&quot;</span>, case<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output execute_result" data-execution_count="12">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>original</th>
+      <th>sentiment</th>
+      <th>edited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potatoes</td>
+      <td>-1</td>
+      <td>Chocolate</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I hate bananas</td>
+      <td>-1</td>
+      <td>I hate bananas</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I love potatoes</td>
+      <td>1</td>
+      <td>I love Chocolate</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potatoes are my favorite</td>
+      <td>1</td>
+      <td>Chocolate are my favorite</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I ate potatoes</td>
+      <td>0</td>
+      <td>I ate Chocolate</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p><strong>You cannot make replace case-insensitive</strong> (unless you work with regular expressions).</p>
+</div>
+<section id="removing-parts-of-strings" class="cell markdown">
+<h2>Removing parts of strings</h2>
+<p>If you want to remove something from a cell, <strong>use .str.replace to replace it with an empty string <code>""</code></strong>.</p>
+</section>
+<div class="cell code" data-execution_count="13">
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.original.<span class="bu">str</span>.replace(<span class="st">&quot;I &quot;</span>, <span class="st">&quot;&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output execute_result" data-execution_count="13">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>original</th>
+      <th>sentiment</th>
+      <th>edited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potatoes</td>
+      <td>-1</td>
+      <td>Potatoes</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I hate bananas</td>
+      <td>-1</td>
+      <td>hate bananas</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I love potatoes</td>
+      <td>1</td>
+      <td>love potatoes</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potatoes are my favorite</td>
+      <td>1</td>
+      <td>Potatoes are my favorite</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I ate potatoes</td>
+      <td>0</td>
+      <td>ate potatoes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>This is really useful for data cleaning, especially if you don't know regular expressions.</p>
+</div>
+<div class="cell code" data-execution_count="14">
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dirty <span class="op">=</span> pd.DataFrame([</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">&#39;phrase&#39;</span>: <span class="st">&#39;Please call 555-1212 for assistance&#39;</span> },</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">&#39;phrase&#39;</span>: <span class="st">&#39;Please call 332-3456 for assistance&#39;</span> },</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">&#39;phrase&#39;</span>: <span class="st">&#39;Please call 123-4333 for assistance&#39;</span> },</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>dirty</span></code></pre></div>
+<div class="output execute_result" data-execution_count="14">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>phrase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Please call 555-1212 for assistance</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Please call 332-3456 for assistance</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Please call 123-4333 for assistance</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell code" data-execution_count="15">
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dirty.phrase <span class="op">=</span> dirty.phrase.<span class="bu">str</span>.replace(<span class="st">&quot;Please call &quot;</span>, <span class="st">&quot;&quot;</span>).<span class="bu">str</span>.replace(<span class="st">&quot; for assistance&quot;</span>, <span class="st">&quot;&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>dirty</span></code></pre></div>
+<div class="output execute_result" data-execution_count="15">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>phrase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>555-1212</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>332-3456</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>123-4333</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="dont-confuse-strreplace-and-replace" class="cell markdown">
+<h2>Don't confuse .str.replace and .replace</h2>
+<p>Even though they're very similar in many situations, sometimes you'll run into errors because you're treating one like the other.</p>
+<h3 id="only-replace-can-use-dictionaries">Only replace can use dictionaries</h3>
+<p>When you use replace, you can replace multiple values at once.</p>
+</section>
+<div class="cell code" data-execution_count="24">
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.sentiment.replace({</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span><span class="dv">1</span>: <span class="st">&quot;negative&quot;</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: <span class="st">&quot;neutral&quot;</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">&quot;positive&quot;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output execute_result" data-execution_count="24">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>original</th>
+      <th>sentiment</th>
+      <th>edited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potatoes</td>
+      <td>-1</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I hate bananas</td>
+      <td>-1</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I love potatoes</td>
+      <td>1</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potatoes are my favorite</td>
+      <td>1</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I ate potatoes</td>
+      <td>0</td>
+      <td>neutral</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell markdown">
+<p>If you try to do that with <code>.str.replace</code>, you get an error: <code>replace() missing 1 required positional argument: 'repl'</code>. This means "You didn't tell me what to replace with what," even though it feels like you tried.</p>
+</div>
+<div class="cell code" data-execution_count="27">
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This will not work</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.original.<span class="bu">str</span>.replace({</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;potatoes&quot;</span>: <span class="st">&quot;chocolate&quot;</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;love&quot;</span>: <span class="st">&quot;hate&quot;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output error" data-ename="TypeError" data-evalue="replace() missing 1 required positional argument: &#39;repl&#39;">
+<pre><code>---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/var/folders/l0/h__2c37508b8pl19zp232ycr0000gn/T/ipykernel_44881/629204424.py in &lt;module&gt;
+----&gt; 1 df[&#39;edited&#39;] = df.original.str.replace({
+      2     &quot;potatoes&quot;: &quot;chocolate&quot;,
+      3     &quot;love&quot;: &quot;hate&quot;
+      4 })
+      5 df
+
+~/.pyenv/versions/3.9.7/lib/python3.9/site-packages/pandas/core/strings/accessor.py in wrapper(self, *args, **kwargs)
+    114                 )
+    115                 raise TypeError(msg)
+--&gt; 116             return func(self, *args, **kwargs)
+    117 
+    118         wrapper.__name__ = func_name
+
+TypeError: replace() missing 1 required positional argument: &#39;repl&#39;</code></pre>
+</div>
+</div>
+<div class="cell markdown">
+<p>The easiest fix is to just <strong>do your replacing one replacement at a time.</strong></p>
+</div>
+<div class="cell code" data-execution_count="28">
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.original.<span class="bu">str</span>.replace(<span class="st">&quot;potatoes&quot;</span>, <span class="st">&quot;chocolate&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;edited&#39;</span>] <span class="op">=</span> df.original.<span class="bu">str</span>.replace(<span class="st">&quot;love&quot;</span>, <span class="st">&quot;hate&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div class="output execute_result" data-execution_count="28">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>original</th>
+      <th>sentiment</th>
+      <th>edited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potatoes</td>
+      <td>-1</td>
+      <td>Potatoes</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I hate bananas</td>
+      <td>-1</td>
+      <td>I hate bananas</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I love potatoes</td>
+      <td>1</td>
+      <td>I hate potatoes</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potatoes are my favorite</td>
+      <td>1</td>
+      <td>Potatoes are my favorite</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I ate potatoes</td>
+      <td>0</td>
+      <td>I ate potatoes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+
+        <p style="text-align: center; margin-top: 4em;"><a href="../class-06/">← back to class-06</a></p>
+    
+      </div>
+      </div>
+    </section>
+    
+  </body>
+</html>
